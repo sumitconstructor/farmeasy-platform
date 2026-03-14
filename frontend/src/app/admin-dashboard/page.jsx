@@ -5,28 +5,23 @@ import { Users, Truck, Factory, Leaf, TrendingUp } from 'lucide-react';
 
 export default function AdminDashboard() {
   
-  // State variables for our live data
   const [farmerCount, setFarmerCount] = useState("...");
   const [totalRevenue, setTotalRevenue] = useState("...");
 
-  // Fetch the data as soon as the dashboard opens
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // 1. Fetch Farmers
-        const farmerRes = await fetch('http://localhost:5000/api/farmers');
+        // 1. Fetch Farmers from the LIVE RENDER URL
+        const farmerRes = await fetch('https://farmeasy-platform.onrender.com/api/farmers');
         const farmerData = await farmerRes.json();
         setFarmerCount(farmerData.length); 
 
-        // 2. Fetch Orders (Revenue)
-        const orderRes = await fetch('http://localhost:5000/api/orders');
+        // 2. Fetch Orders from the LIVE RENDER URL
+        const orderRes = await fetch('https://farmeasy-platform.onrender.com/api/orders');
         const orderData = await orderRes.json();
         
         // 3. Calculate Total Revenue
-        // This math adds up the 'totalAmount' from every single order in the database
         const calculatedRevenue = orderData.reduce((sum, order) => sum + order.totalAmount, 0);
-        
-        // Format it nicely with commas (e.g., 26500 becomes 26,500)
         setTotalRevenue(calculatedRevenue.toLocaleString());
 
       } catch (error) {
@@ -41,8 +36,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-green-50 font-sans text-green-950 pb-12">
-      
-      {/* Admin Top Navigation */}
       <nav className="bg-green-950 text-white sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
           <div className="flex items-center gap-2">
@@ -53,16 +46,13 @@ export default function AdminDashboard() {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        
         <div className="mb-8">
           <h1 className="text-3xl font-extrabold text-green-900">Platform Overview</h1>
           <p className="text-green-700 mt-1">Real-time metrics from your live database.</p>
         </div>
 
-        {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           
-          {/* LIVE FARMER COUNT */}
           <div className="bg-white/80 backdrop-blur-xl border border-white p-6 rounded-3xl shadow-sm border-l-4 border-l-blue-500">
             <div className="flex justify-between items-start mb-4">
               <div className="bg-blue-100 p-3 rounded-2xl">
@@ -94,7 +84,6 @@ export default function AdminDashboard() {
             <h3 className="text-3xl font-bold text-green-950 mt-1">5,430</h3>
           </div>
 
-          {/* LIVE CORPORATE REVENUE */}
           <div className="bg-white/80 backdrop-blur-xl border border-white p-6 rounded-3xl shadow-sm border-l-4 border-l-teal-500 transform hover:-translate-y-1 transition duration-300">
             <div className="flex justify-between items-start mb-4">
               <div className="bg-teal-100 p-3 rounded-2xl">

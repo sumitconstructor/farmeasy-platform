@@ -5,15 +5,14 @@ import { Leaf, CreditCard, Award, CheckCircle, Download, ShieldCheck } from 'luc
 
 export default function CheckoutAndCertificate() {
   
-  // State to hold the form data
   const [formData, setFormData] = useState({
     companyName: '',
     email: '',
-    totalAmount: 26500 // The hardcoded total for this cart
+    totalAmount: 26500
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPaid, setIsPaid] = useState(false); // Tracks if they successfully bought it!
+  const [isPaid, setIsPaid] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,15 +23,15 @@ export default function CheckoutAndCertificate() {
     setIsSubmitting(true);
 
     try {
-      // Send the order to our backend
-      const response = await fetch('http://localhost:5000/api/orders', {
+      // Send the order to the LIVE RENDER URL
+      const response = await fetch('https://farmeasy-platform.onrender.com/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        setIsPaid(true); // Unlock the certificate!
+        setIsPaid(true);
       } else {
         alert("Payment failed on the server.");
       }
@@ -54,7 +53,6 @@ export default function CheckoutAndCertificate() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           
-          {/* LEFT COLUMN: Form */}
           <div className="space-y-8">
             <div className="bg-white/80 backdrop-blur-xl border border-white p-8 rounded-3xl shadow-sm">
               <h2 className="text-xl font-bold text-green-900 mb-6 border-b border-green-100 pb-4">Order Summary</h2>
@@ -100,7 +98,6 @@ export default function CheckoutAndCertificate() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Certificate */}
           <div className="flex flex-col items-center justify-center">
             <div className="text-center mb-6">
               <span className="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-2 inline-block flex items-center gap-1 mx-auto w-max">
@@ -133,7 +130,6 @@ export default function CheckoutAndCertificate() {
               </div>
             </div>
 
-            {/* Dynamic Download Button */}
             {isPaid ? (
               <button className="mt-8 bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition animate-bounce">
                 <Download className="h-5 w-5" /> Download High-Res PDF
